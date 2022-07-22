@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Module;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RoleController extends Controller
 {
@@ -26,7 +29,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $modules = Module::all();
+        return view('backend.roles.create',compact('modules'));
     }
 
     /**
@@ -37,7 +41,21 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+
+            'name' => 'required',
+            'permission' => 'required',
+
+        ]);
+
+        Role::create([
+
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+
+        ])->permissions()->sync($request->input('permission'));
+
+        return redirect()->route('app.roles.index');
     }
 
     /**

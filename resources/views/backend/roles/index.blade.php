@@ -1,6 +1,5 @@
 @extends('backend.main')
 @section('css')
-<link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 <!-- Datatable -->
 <link href="{{asset('backend/vendor/datatables/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 @endsection
@@ -8,10 +7,10 @@
 <div class="container-fluid">
     <div class="row page-titles mx-0">
         <div class="col-sm-6 p-md-0">
-            <h4 style="color: #65656B;">Roles</h4>
+            <h4 class="text-primary"><i class="fa-solid fa-circle-check"></i>Roles</h4>
         </div>
         <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-            <a class="btn btn-primary" href="#">Add New</a>
+            <a class="btn btn-primary" href="{{route('app.roles.create')}}"><i class="fa-solid fa-circle-plus p-1"></i><span>Create New</span></a>
         </div>
     </div>
 
@@ -57,9 +56,9 @@
                                         </td>
                                         <td>{{$role->updated_at->diffForHumans()}}</td>
                                         <td>
-                                            <a class="btn btn-primary btn-sm" href="{{route('app.roles.edit',[$role->id])}}"><i class='bx bxs-edit '></i><span>Edit</span></a>
+                                            <a class="btn btn-primary btn-sm" href="{{route('app.roles.edit',[$role->id])}}"><i class="fa-solid fa-pen-to-square"></i><span>Edit</span></a>
 
-                                            <button class="btn btn-danger btn-sm" type="submit"><i class='bx bxs-message-square-x'></i><span>Delete</span></button>
+                                            <button class="btn btn-danger btn-sm" type="submit"><i class="fa-solid fa-trash"></i><span>Delete</span></button>
                                         </td>
                                     </tr>
                                 @endforeach
