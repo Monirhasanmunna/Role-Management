@@ -19,8 +19,8 @@ class RoleSeeder extends Seeder
         $adminPermission = Permission::all();
 
         Role::updateOrCreate([
-            'name' => 'Super Admin',
-            'slug' => 'super-admin',
+            'name' => 'Admin',
+            'slug' => 'admin',
             'deletable' => false
         ])->permissions()->sync($adminPermission->pluck('id'));
 

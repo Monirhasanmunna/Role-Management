@@ -248,6 +248,8 @@
 
     <script src="{{asset('backend/js/dashboard/dashboard-1.js')}}"></script>
 
+    @yield('js')
+
 </body>
 
 </html>
