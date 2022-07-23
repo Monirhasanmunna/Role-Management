@@ -4,10 +4,16 @@
 
         <div class="row page-titles mx-0">
             <div class="col-sm-6 p-md-0">
-                <h4 class="text-primary"><i class="fa-solid fa-circle-check"></i>Roles</h4>
+                <h4 class="text-primary"><i class="fa-solid fa-circle-check"></i>
+                @if (isset($role))
+                    Roles Update
+                @else
+                    Roles Create
+                @endif
+            </h4>
             </div>
             <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
-                <a class="btn btn-primary" href="{{route('app.roles.create')}}"><i class="fa-solid fa-circle-plus p-1"></i><span>Create New</span></a>
+                <a class="btn btn-primary" href="{{route('app.roles.index')}}"><i class="fa-solid fa-circle-arrow-left"></i><span>Go Back</span></a>
             </div>
         </div>
 
@@ -38,7 +44,11 @@
                                             @foreach ($module->permissions as $permission)
                                                 <div class="mb-3 ml-4">
                                                     <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox"  id="flexCheckDefault" name="permission[]" value="{{$permission->id}}">
+                                                        <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="permission[]" value="{{$permission->id}}"
+                                                        @foreach ($role->permissions as $rolePermissions)
+                                                            {{$rolePermissions->id == $permission->id ? 'checked' : ''}}
+                                                        @endforeach
+                                                        >
                                                         <label class="form-check-label" for="flexCheckDefault" >{{$permission->name}}</label>
                                                     </div>
                                                 </div>
@@ -58,7 +68,12 @@
                         </div>
 
                         <div class="mt-3 ml-4 mb-3">
-                            <button type="submit" class="btn btn-primary">Create</button>
+                            @if (isset($role))
+                                <button type="submit" class="btn btn-primary">Update</button> 
+                            @else
+                               <button type="submit" class="btn btn-primary">Create</button> 
+                            @endif
+                            
                         </div>
                     </form>
                 </div>
