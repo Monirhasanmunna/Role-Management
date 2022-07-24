@@ -58,7 +58,15 @@
                                         <td>
                                             <a class="btn btn-primary btn-sm" href="{{route('app.roles.edit',[$role->id])}}"><i class="fa-solid fa-pen-to-square"></i><span>Edit</span></a>
 
-                                            <button class="btn btn-danger btn-sm" type="submit"><i class="fa-solid fa-trash"></i><span>Delete</span></button>
+                                            @if($role->deletable == true)
+                                            {{-- <button onclick="deleteData($role->id)" class="btn btn-danger btn-sm" type="button"><i class="fa-solid fa-trash"></i><span>Delete</span></button> --}}
+
+                                            <form action="{{route('app.roles.destroy',[$role->id])}}" method="POST" style="display" class="btn btn-danger btn-sm ">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button class="show-alert-delete-box " onclick="deleteData($role->id)" style="border:none;background-color: transparent; color:white;" type="submit"><i class="fa-solid fa-trash"></i><span>Delete</span></button>
+                                            </form>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -76,4 +84,52 @@
 <!-- Datatable -->
 <script src="{{asset('backend/vendor/datatables/js/jquery.dataTables.min.js')}}"></script>
 <script src="{{asset('backend/js/plugins-init/datatables.init.js')}}"></script>
+
+{{-- <script>
+    function deleteData(id)
+{
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          document.getElementById('delete-form-'+id).submit();
+          Swal.fire(
+            'Deleted!',
+            'Your file has been deleted.',
+            'success'
+          )
+        }
+      })
+}
+</script> --}}
+
+</script>
+<script type="text/javascript">
+ $('.show-alert-delete-box').click(function(event){
+     var form =  $(this).closest("form");
+     var name = $(this).data("name");
+     event.preventDefault();
+
+     swal({
+         title: "Are you sure you want to delete this post?",
+         text: "If you delete this, it will be gone forever.",
+         icon: "warning",
+         type: "warning",
+         buttons: ["Cancel","Yes!"],
+         confirmButtonColor: '#3085d6',
+         cancelButtonColor: '#d33',
+         confirmButtonText: 'Yes, post deleted successfully!'
+     }).then((willDelete) => {
+         if (willDelete) {
+             form.submit();
+         }
+     });
+ });
+</script>
 @endsection

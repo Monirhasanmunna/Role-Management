@@ -35,8 +35,12 @@
 
                             <div class="text-center mb-4"><strong>Manage Role Permission</strong></div>
 
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox"  id="select-all">
+                                <label class="form-check-label" for="select-all" >Select All</label>
+                            </div>
+
                             @forelse ($modules->chunk(2) as $key => $chunk)
-                                
                                 <div class="row">
                                     @foreach ($chunk as $module)
                                         <div class="col">
@@ -45,16 +49,17 @@
                                                 <div class="mb-3 ml-4">
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault" name="permission[]" value="{{$permission->id}}"
+                                                        @if(isset($role))
                                                         @foreach ($role->permissions as $rolePermissions)
                                                             {{$rolePermissions->id == $permission->id ? 'checked' : ''}}
                                                         @endforeach
+                                                        @endif
                                                         >
                                                         <label class="form-check-label" for="flexCheckDefault" >{{$permission->name}}</label>
                                                     </div>
                                                 </div>
                                             @endforeach
                                         </div>
-                                        
                                     @endforeach
                                 </div>
                                 
@@ -81,4 +86,24 @@
         </div>
     </div>
 
+@endsection
+@section('js')
+    
+<script>
+
+    $('#select-all').click(function(event){
+
+        if(this.checked) {
+            $(':checkbox').each(function() {
+                this.checked = true;
+            });
+        }else{
+            $(':checkbox').each(function() {
+                this.checked = false;
+            });
+        }
+
+    });
+
+</script>
 @endsection

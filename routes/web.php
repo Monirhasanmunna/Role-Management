@@ -21,9 +21,9 @@ Route::get('/', function () {
     return view('welcome',compact('permissions'));
 });
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 
 Route::group(['as'=>'app.','prefix'=>'app','middleware'=>['auth']], function(){
