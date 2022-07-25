@@ -18,7 +18,6 @@ class RoleController extends Controller
      */
     public function index()
     {
-        notify("Quick notification");
         $roles = Role::all();
         return view('backend.roles.index',compact('roles'));
     }
@@ -56,6 +55,7 @@ class RoleController extends Controller
 
         ])->permissions()->sync($request->input('permission'));
 
+        notify()->success("Role Added");
         return redirect()->route('app.roles.index');
     }
 
@@ -106,6 +106,7 @@ class RoleController extends Controller
         ]);
         $role->permissions()->sync($request->input('permission'));
 
+        notify()->success("Role Updated");
         return redirect()->route('app.roles.index');
     }
 
@@ -120,6 +121,7 @@ class RoleController extends Controller
         if($role->deletable == true)
         {
             $role->delete();
+            notify()->success("Role Deleted");
             return redirect()->back();
         }
     }
