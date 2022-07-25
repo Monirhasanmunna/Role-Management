@@ -18,6 +18,7 @@ class RoleController extends Controller
      */
     public function index()
     {
+        notify("Quick notification");
         $roles = Role::all();
         return view('backend.roles.index',compact('roles'));
     }

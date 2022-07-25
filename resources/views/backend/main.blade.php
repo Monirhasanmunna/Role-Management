@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <link rel="stylesheet" href="sweetalert2.min.css">
+
+    <link href="{{ asset('css/iziToast.css') }}" rel="stylesheet">
     @yield('css')
     <style>
         .material-symbols-outlined {
@@ -251,7 +252,11 @@
     <script src="{{asset('backend/js/dashboard/dashboard-1.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
+    <script src="{{ asset('js/iziToast.js') }}"></script>
+
     @yield('js')
+
+    @include('vendor.lara-izitoast.toast')
 
 </body>
 
