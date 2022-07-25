@@ -160,10 +160,16 @@
                                         <i class="icon-envelope-open"></i>
                                         <span class="ml-2">Inbox </span>
                                     </a>
-                                    <a href="./page-login.html" class="dropdown-item">
+
+                                    <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <a href="{{route('logout')}}" onclick="event.preventDefault();
+                                    this.closest('form').submit();" class="dropdown-item">
                                         <i class="icon-key"></i>
                                         <span class="ml-2">Logout </span>
                                     </a>
+                                    </form>
+                                    
                                 </div>
                             </li>
                         </ul>

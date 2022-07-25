@@ -7,6 +7,7 @@ use App\Models\Module;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 
 class RoleController extends Controller
@@ -18,6 +19,7 @@ class RoleController extends Controller
      */
     public function index()
     {
+        Gate::authorize('app.role.index');
         $roles = Role::all();
         return view('backend.roles.index',compact('roles'));
     }
@@ -29,6 +31,7 @@ class RoleController extends Controller
      */
     public function create()
     {
+        Gate::authorize('app.role.create');
         $modules = Module::all();
         return view('backend.roles.create',compact('modules'));
     }
@@ -78,6 +81,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
+        Gate::authorize('app.role.edit');
         $modules = Module::all();
         return view('backend.roles.create',compact('modules','role'));
     }
@@ -94,7 +98,6 @@ class RoleController extends Controller
         $request->validate([
 
             'name' => 'required',
-            'permission' => 'required',
 
         ]);
 
@@ -106,7 +109,7 @@ class RoleController extends Controller
         ]);
         $role->permissions()->sync($request->input('permission'));
 
-        notify()->success("Role Updated");
+        notify()->info("Role Updated");
         return redirect()->route('app.roles.index');
     }
 
@@ -118,10 +121,15 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
+        Gate::authorize('app.role.delete');
         if($role->deletable == true)
         {
             $role->delete();
-            notify()->success("Role Deleted");
+            notify()->warning("Role Deleted");
+            return redirect()->back();
+        }else{
+
+            notify()->error("You Can Not Delete System Role");
             return redirect()->back();
         }
     }
