@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\Backend\DashboardController;
-use App\Http\Controllers\Backend\RoleController;
-use App\Models\Permission;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $permissions = Permission::all();
+
     return view('welcome',compact('permissions'));
 });
 
@@ -26,11 +24,6 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 
-Route::group(['as'=>'app.','prefix'=>'app','middleware'=>['auth']], function(){
 
-    Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
-    Route::resource('roles',RoleController::class); 
-
-});
 
 require __DIR__.'/auth.php';
