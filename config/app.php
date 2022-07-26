@@ -58,6 +58,8 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'placeholder' => 'https://via.placeholder.com/',
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

@@ -2,13 +2,15 @@
 
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\UserController;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Route;
 
 
 
-//'as'=>'app.','prefix'=>'app','middleware'=>'auth'//
+// 'as'=>'app.','prefix'=>'app','middleware'=>'auth'
+
+
 Route::get('/dashboard',[DashboardController::class,'index'])->name('dashboard');
 Route::resource('roles',RoleController::class); 
-
-
+Route::resource('user',UserController::class);

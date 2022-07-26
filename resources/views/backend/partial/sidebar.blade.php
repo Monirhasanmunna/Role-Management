@@ -19,6 +19,15 @@
                     <li><a href="{{route('app.roles.index')}}">Role List</a></li>
                 </ul>
             </li>
+
+
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                <i class="fa-solid fa-user-group"></i>
+                <span class="nav-text">User</span></a>
+                <ul aria-expanded="false">
+                    <li><a href="{{route('app.user.index')}}">User List</a></li>
+                </ul>
+            </li>
             
         </ul>
     </div>
