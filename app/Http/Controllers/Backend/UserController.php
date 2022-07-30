@@ -177,12 +177,18 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         Gate::authorize('app.users.delete');
+
+        if($user->role_id != 1){
         //delete old pic
         if(Storage::disk('public')->exists('users/'.$user->avatar)){
 
             Storage::disk('public')->delete('users/'.$user->avatar);
         }
         $user->delete();
+        }else{
+            notify()->error('System Admin Not be Deleted');
+            return redirect()->back();
+        }
         notify()->error('User Deleted');
         return redirect()->back();
     }
