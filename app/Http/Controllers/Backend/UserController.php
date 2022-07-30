@@ -154,11 +154,18 @@ class UserController extends Controller
         }else{
             $imageName = $user->avatar;
         }
+        
+        $password = '';
+        if($request->password != null){
+            $password =  bcrypt($request->password);
+        }else{
+            $password = $user->password;
+        }
 
         $user->update([
             'name' => $request->name,
             'email'=> $request->email,
-            'password' => bcrypt($request->password),
+            'password' => $password,
             'role_id' => $request->role,
             'status' => $request->filled('status'),
             'avatar' => $imageName,

@@ -149,7 +149,7 @@
                             </li>
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="#" role="button" data-toggle="dropdown">
-                                    <i class="mdi mdi-account"></i>
+                                    <img style="width: 45px;height:45px;border-radius:50%;" src="{{asset('storage/users/'.Auth::user()->avatar)}}" alt="{{Auth::user()->avatar}}">
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a href="./app-profile.html" class="dropdown-item">

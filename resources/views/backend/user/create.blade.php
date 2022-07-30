@@ -85,7 +85,9 @@
                                         class="@error('role') is-invalid @enderror">
                                             @foreach ($roles as $role)
                                               <option value="{{$role->id}}" 
+                                                @if(isset($user))
                                                 {{$role->id == $user->role_id ? 'selected' : ''}}
+                                                @endif
                                                 >{{$role->name}}</option>  
                                             @endforeach
                                           </select>
@@ -107,7 +109,7 @@
 
                                     <div class="form-group">
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" name="status" class="custom-control-input" {{$user->status == 1 ? 'checked' : ''}} id="customSwitch1">
+                                        <input type="checkbox" name="status" class="custom-control-input" @if(isset($user)) {{$user->status == 1 ? 'checked' : ''}} @endif id="customSwitch1">
                                         <label class="custom-control-label" for="customSwitch1">Status</label>
                                     </div>
                                     </div>
