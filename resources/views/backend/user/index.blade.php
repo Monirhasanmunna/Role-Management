@@ -7,7 +7,7 @@
 <div class="container-fluid">
     <div class="row page-titles mx-0">
         <div class="col-sm-6 p-md-0">
-            <h4 class="text-primary"><i class="fa-solid fa-circle-check"></i>Roles</h4>
+            <h4 class="text-primary"><i class="fa-solid fa-circle-check"></i>User Manage</h4>
         </div>
         <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
             <a class="btn btn-primary" href="{{route('app.user.create')}}"><i class="fa-solid fa-circle-plus p-1"></i><span>Create New</span></a>
@@ -33,7 +33,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-
+                                
                                 @foreach ($users as $key => $user)
                                     <tr role="row" class="text-center" style="color: black;">
                                         <td>#{{$key+1}}</td>
@@ -42,7 +42,7 @@
                                                 <div class="widget-content-wrapper">
                                                     <div class="widget-content-left mr-3">
                                                         <div class="widget-content-left">
-                                                            <img width="40" class="rounded-circle" src="{{config('app.placeholder').'160'}}" alt="User Avatar">
+                                                            <img style="width: 55px; height:55px;border-radius:50%;"  src="{{asset('storage/users/'.$user->avatar)}}" alt="{{$user->avatar}}">
                                                         </div>
                                                     </div>
                                                     <div class="widget-content-left flex2">

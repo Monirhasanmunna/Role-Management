@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -28,7 +32,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        Gate::authorize('app.users.create');
+        $roles = Role::all();
+        $users = User::all();
+        return view('backend.user.create',compact('users','roles'));
     }
 
     /**
@@ -39,7 +46,44 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       //dd ($request);
+        $request->validate([
+            'name' => 'required|string|unique:users|max:50',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|confirmed|min:8',
+            'avatar' => 'sometimes|mimes:jpg,jpeg,png,webp|max:2024',
+            'role' => 'required',
+        ]);
+
+        
+        $image = $request->file('avatar');
+        $slug = Str::slug($request->name);
+        $imageName = '';
+        if(isset($image)){
+
+            //make unique name for image`
+            $imageName = $slug.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+            if(!Storage::disk('public')->exists('users'))
+            {
+                Storage::disk('public')->makeDirectory('users');
+            }
+
+            $postImage = Image::make($image)->resize(169,169)->stream();
+            Storage::disk('public')->put('users/'.$imageName,$postImage);
+        }
+
+        User::create([
+            'name' => $request->name,
+            'email'=> $request->email,
+            'password' => bcrypt($request->password),
+            'role_id' => $request->role,
+            'status' => $request->filled('status'),
+            'avatar' => $imageName,
+        ]);
+
+        notify()->success('User Added');
+        return redirect()->back();
     }
 
     /**
