@@ -33,7 +33,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
+
                                 @foreach ($users as $key => $user)
                                     <tr role="row" class="text-center" style="color: black;">
                                         <td>#{{$key+1}}</td>

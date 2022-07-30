@@ -105,7 +105,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        Gate::authorize('app.users.edit');
+        $roles = Role::all();
+        return view('backend.user.create',compact('user','roles'));
     }
 
     /**
@@ -117,7 +119,53 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        //dd ($request);
+        $request->validate([
+            'name' => 'required|string|max:50',
+            'email' => 'required|email',
+            'password' => 'sometimes|confirmed',
+            'avatar' => 'sometimes|mimes:jpg,jpeg,png,webp|max:2024',
+            'role' => 'required',
+        ]);
+
+        
+        $image = $request->file('avatar');
+        $slug = Str::slug($request->name);
+        $imageName = '';
+        if(isset($image)){
+
+            //make unique name for image`
+            $imageName = $slug.'-'.uniqid().'.'.$image->getClientOriginalExtension();
+
+            //storage create
+            if(!Storage::disk('public')->exists('users')){
+
+                Storage::disk('public')->makeDirectory('users');
+            }
+
+            //delete old pic
+            if(Storage::disk('public')->exists('users/'.$user->avatar)){
+
+                Storage::disk('public')->delete('users/'.$user->avatar);
+            }
+
+            $postImage = Image::make($image)->resize(169,169)->stream();
+            Storage::disk('public')->put('users/'.$imageName,$postImage);
+        }else{
+            $imageName = $user->avatar;
+        }
+
+        $user->update([
+            'name' => $request->name,
+            'email'=> $request->email,
+            'password' => bcrypt($request->password),
+            'role_id' => $request->role,
+            'status' => $request->filled('status'),
+            'avatar' => $imageName,
+        ]);
+
+        notify()->success('User Updated');
+        return redirect()->back();
     }
 
     /**
@@ -129,6 +177,11 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         Gate::authorize('app.users.delete');
+        //delete old pic
+        if(Storage::disk('public')->exists('users/'.$user->avatar)){
+
+            Storage::disk('public')->delete('users/'.$user->avatar);
+        }
         $user->delete();
         notify()->error('User Deleted');
         return redirect()->back();

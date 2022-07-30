@@ -59,7 +59,7 @@
 
                                     <div class="form-group">
                                         <label style="color: #626262;" for="password"><strong>Password :</strong></label>
-                                        <input class="form-control" id="password" name="password" value="{{isset($user) ? $user->password : old('password')}}" type="password"
+                                        <input class="form-control" id="password" name="password" type="password"
                                         class="@error('password') is-invalid @enderror">
 
                                         @error('password')
@@ -69,7 +69,7 @@
 
                                     <div class="form-group">
                                         <label style="color: #626262;" for="confirm-password"><strong>Confirm Password :</strong></label>
-                                        <input class="form-control" id="confirm-password" name="password_confirmation" value="{{isset($user) ? $user->password : old('password')}}" type="password">
+                                        <input class="form-control" id="confirm-password" name="password_confirmation" type="password">
                                     </div>
                                 </div>
                             
@@ -84,7 +84,9 @@
                                         <select class="js-example-basic-single" id="select" name="role"
                                         class="@error('role') is-invalid @enderror">
                                             @foreach ($roles as $role)
-                                              <option value="{{$role->id}}">{{$role->name}}</option>  
+                                              <option value="{{$role->id}}" 
+                                                {{$role->id == $user->role_id ? 'selected' : ''}}
+                                                >{{$role->name}}</option>  
                                             @endforeach
                                           </select>
 
@@ -95,7 +97,7 @@
 
                                     <div class="form-group">
                                         <label style="color: #626262;" for="avatar"><strong>Avatar :</strong></label>
-                                        <input class="form-control dropify" id="avatar" name="avatar" type="file"
+                                        <input class="form-control dropify" id="avatar" data-default-file="{{isset($user) ? asset('storage/users/'.$user->avatar) : ''}}" name="avatar" type="file"
                                         class="@error('avatar') is-invalid @enderror">
 
                                         @error('avatar')
@@ -105,7 +107,7 @@
 
                                     <div class="form-group">
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" name="status" class="custom-control-input" id="customSwitch1">
+                                        <input type="checkbox" name="status" class="custom-control-input" {{$user->status == 1 ? 'checked' : ''}} id="customSwitch1">
                                         <label class="custom-control-label" for="customSwitch1">Status</label>
                                     </div>
                                     </div>
